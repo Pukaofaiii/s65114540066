@@ -1,0 +1,129 @@
+{% extends 'components/base.html' %}
+
+{% block title %} เเก้ไขบริการซักรีด {% endblock %}
+
+{% block content %}
+
+    <div class="flex-grow">
+    {% if messages %}
+        {% for message in messages %}
+            <div class="p-4 mb-4 text-sm text-green-800 rounded-lg bg-green-50 dark:bg-gray-800 dark:text-green-400" role="alert">
+                <span class="font-medium">{{message}}</span>
+            </div>
+        {% endfor %}
+
+        {% endif %}
+
+        
+          <div class="max-w-md mx-auto bg-white p-6 mt-10 rounded-md shadow-md">
+            <h2 class="text-2xl font-semibold mb-4 text-center" >เเก้ไขข้อมูลส่งซัก</h2>
+            
+            <form action="" method="POST">
+              {% csrf_token %}
+              
+              <div class="mb-3 text-lg font-bold">รหัสส่งซัก: {{ model_form.id }}</div>
+
+              <div class="mb-4 grid grid-cols-2 gap-4">
+                <div>
+                    <label for="first_name" class="block text-gray-600">ชื่อ:</label>
+                    <input type="text" name="first_name" value="{{ form.instance.first_name }}" placeholder="ชื่อของคุณ" class="w-full px-4 py-2 border rounded-md focus:outline-none focus:border-blue-500" step="any">
+                </div>
+            
+                <div>
+                    <label for="last_name" class="block text-gray-600">นามสกุล:</label>
+                    <input type="text" name="last_name" value="{{ form.instance.last_name }}" placeholder="นามสกุล" class="w-full px-4 py-2 border rounded-md focus:outline-none focus:border-blue-500" step="any">
+                </div>
+            </div>
+        
+            <div class="mb-4 grid grid-cols-2 gap-4">
+              <div>
+                  <label for="email" class="block text-gray-600">อีเมล:</label>
+                  <input type="email" value="{{ user.email }}" name="email" placeholder="อีเมลของคุณ" class="w-full px-4 py-2 border rounded-md focus:outline-none focus:border-blue-500" step="any">
+              </div>
+          
+              <div>
+                  <label for="phone_number" class="block text-gray-600">เบอร์โทร:</label>
+                  <input type="text" name="phone_number" value="{{ user.user_profile.phone_number }}" placeholder="เบอร์โทรของคุณ" class="w-full px-4 py-2 border rounded-md focus:outline-none focus:border-blue-500" step="any">
+              </div>
+          </div>
+          
+        
+              <div class="mb-4">
+                <label for="Laundry" class="block text-gray-600">การบริการ:</label>
+                <select id="Laundry" name="Laundry" class="w-full px-4 py-2 border rounded-md focus:outline-none focus:border-blue-500">
+                  <option value="ซักรีด" {% if form.instance.Laundry == 'ซักรีด' %} selected {% endif %}>ซักรีด</option>
+                  <option value="ซัก-พับ" {% if form.instance.Laundry == 'ซัก-พับ' %} selected {% endif %}>ซัก-พับ</option>
+                  <option value="เเค่ซัก" {% if form.instance.Laundry == 'เเค่ซัก' %} selected {% endif %}>เเค่ซัก</option>
+                  <option value="เเค่รีด" {% if form.instance.Laundry == 'เเค่รีด' %} selected {% endif %}>เเค่รีด</option>
+                </select>
+              </div>
+
+              <div class="mb-4 grid grid-cols-2 gap-4">
+                <div>
+                    <label for="date_start" class="block text-gray-600">วันที่ส่ง:</label>
+                    <div class="block relative max-w-sm">
+                        <div class="absolute inset-y-0 start-0 flex items-center ps-3.5 pointer-events-none">
+                            <svg class="w- h-4 text-gray-500" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 20 20">
+                                <path d="M20 4a2 2 0 0 0-2-2h-2V1a1 1 0 0 0-2 0v1h-3V1a1 1 0 0 0-2 0v1H6V1a1 1 0 0 0-2 0v1H2a2 2 0 0 0-2 2v2h20V4ZM0 18a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2V8H0v10Zm5-8h10a1 1 0 0 1 0 2H5a1 1 0 0 1 0-2Z"/>
+                            </svg>
+                        </div>
+                        <input datepicker  name="date_start" value="{{ form.instance.date_start|date:"Y-m-d" }}" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full ps-10 p-2.5" placeholder="Select date">
+                    </div>
+                </div>
+                
+                <div>
+                    <label for="date_end" class="block text-gray-600">วันที่ต้องการรับผ้า:</label>
+                    <div class="block relative max-w-sm">
+                        <div class="absolute inset-y-0 start-0 flex items-center ps-3.5 pointer-events-none">
+                            <svg class="w- h-4 text-gray-500" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 20 20">
+                                <path d="M20 4a2 2 0 0 0-2-2h-2V1a1 1 0 0 0-2 0v1h-3V1a1 1 0 0 0-2 0v1H6V1a1 1 0 0 0-2 0v1H2a2 2 0 0 0-2 2v2h20V4ZM0 18a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2V8H0v10Zm5-8h10a1 1 0 0 1 0 2H5a1 1 0 0 1 0-2Z"/>
+                            </svg>
+                        </div>
+                        <input datepicker  name="date_end" value="{{ form.instance.date_end |date:"Y-m-d" }}"  class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full ps-10 p-2.5" placeholder="Select date">
+                    </div>
+                </div>
+            </div>
+            
+
+          <div class="mb-4">
+            <label for="clothes" class="block text-gray-600">รูปเเบบจัดเก็บผ้า:</label>
+            <select id="clothes" name="clothes" class="w-full px-4 py-2 border rounded-md focus:outline-none focus:border-blue-500">
+              <option value="พับทั้งหมด" {% if form.instance.clothes == 'พับทั้งหมด' %} selected {% endif %}>รีด-พับ ทั้งหมด</option>
+              <option value="เเขวนทั้งหมด" {% if form.instance.clothes == 'เเขวนทั้งหมด' %} selected {% endif %}>รีด-เเขวน ทั้งหมด</option>
+              <option value="รีด-เเขวน เพียง/ชุดสูท/ชุดนักศึกษา/ชุดครุย" {% if form.instance.clothes == 'รีด-เเขวน เพียง/ชุดสูท/ชุดนักศึกษา/ชุดครุย' %} selected {% endif %}>รีด-เเขวน เพียง/ชุดสูท/ชุดนักศึกษา/ชุดครุย</option>
+              <option value="เเค่รีด" {% if form.instance.clothes == 'เเค่รีด' %} selected {% endif %}>เเค่รีด</option>
+            </select>
+          </div>
+
+          <div class="mb-4 grid grid-cols-2 gap-4">
+            <div>
+                <label for="number_clothes" class="block text-gray-600">จำนวนผ้า:</label>
+                <input type="text" name="number_clothes" value="{{ form.instance.number_clothes }}" placeholder="ตัวอย่างเช่น '5' ตัว" class="w-full px-4 py-2 border rounded-md focus:outline-none focus:border-blue-500" step="any">
+            </div>
+        
+            <div>
+                <label for="number_baskets" class="block text-gray-600">จำนวนตะกร้า:</label>
+                <input type="text" name="number_baskets" value="{{ form.instance.number_baskets }}" placeholder="ตัวอย่างเช่น '1' ตะกร้า" class="w-full px-4 py-2 border rounded-md focus:outline-none focus:border-blue-500" step="any">
+            </div>
+        </div>
+        
+      
+        
+              <div class="mb-4">
+                <label for="note" class="block text-gray-600">หมายเหตุ:</label>
+                <input type="text" name="note" value="{{ form.instance.note }}" placeholder="ตัวอย่างเช่น  'ชุดสูทซักมือ' 'ชุดนักศึกษาเเค่ รีด'" class="w-full px-4 py-2 border rounded-md focus:outline-none focus:border-blue-500" step="any">
+              </div>
+        
+              
+        
+              <button type="submit" class="bg-blue-500 text-white px-4 py-2 rounded-md hover:bg-blue-700">ตกลง</button>
+        
+        
+            </form>
+          </div>
+
+    
+
+  </div>
+        
+{% endblock %}

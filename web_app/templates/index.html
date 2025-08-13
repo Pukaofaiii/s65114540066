@@ -1,0 +1,84 @@
+{% extends 'components/base.html' %}
+
+{% block title %} หน้าหลัก {% endblock %}
+{% load static %}
+{% block content %}
+
+<div class="flex-grow">
+    {% if messages %}
+    {% for message in messages %}
+    <div class="p-4 mb-4 text-sm text-green-800 rounded-lg bg-green-50 dark:bg-gray-800 dark:text-green-400"
+        role="alert">
+        <span class="font-medium">{{message}}</span>
+    </div>
+    {% endfor %}
+    {% endif %}
+
+    <h1 class=" text-center mt-3 text-5xl font-bold">เอส & ฮาร์ท ซัก รีด</h1>
+    ้ <h2 class="text-center  mb-5 text-3xl font-semibold">บริการ รับ ซัก เสื้อ ผ้าม่าน ผ้าห่ม ร้องเท้า</h2>
+    <div class="flex justify-center">
+        <label class="bg-blue-200 mt-4 rounded-lg py-2 px-[20rem] ">
+            <a href="{% url 'service' %}">
+                รับบริการตอนนี้
+            </a>
+        </label>
+    </div>
+    <div class="flex justify-center">
+        <label class="bg-white mt-4 rounded-lg py-2 px-[15rem] ">
+            <a href="#">
+                ตรวจสอบราคา
+            </a>
+        </label>
+    </div>
+    <!-- Main Content -->
+    <div class="container mx-auto mt-8">
+        <h1 class="text-3xl font-bold text-center mb-8">บริการของเรา</h1>
+        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
+            <!-- Service Card 1 -->
+            <div class="bg-white rounded-lg shadow-md p-6">
+                <h2 class="text-xl font-bold mb-4">บริการซักรีด</h2>
+                <p class="text-gray-700">บริการซักรีดผ่านเว็บไซต์ของเรา ด้วยบริการที่มีคุณภาพและราคาที่เหมาะสม</p>
+            </div>
+            <!-- Service Card 2 -->
+            <div class="bg-white rounded-lg shadow-md p-6">
+                <h2 class="text-xl font-bold mb-4">บริการรับ-ส่งฟรี พื้นที่ใกล้เคียง</h2>
+                <p class="text-gray-700">เพื่อความสะดวกสบายของลูกค้า รับ-ส่ง</p>
+            </div>
+            <!-- Service Card 3 -->
+            <div class="bg-white rounded-lg shadow-md p-6">
+                <h2 class="text-xl font-bold mb-4">บริการด่วน 24 ชั่วโมง</h2>
+                <p class="text-gray-700">มีบริการด่วน 24 ชั่วโมง เพื่อความสะดวกของลูกค้าในการรับ-ส่ง</p>
+            </div>
+        </div>
+    </div>
+</div>
+
+<link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
+
+
+
+
+<div class="flex flex-col items-center justify-center shadows ">
+  
+    <iframe class="w-[60rem] h-[25rem] mt-10" src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3851.8476108116206!2d104.9030116751959!3d15.111725185437459!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x311685f96a4556cf%3A0x9c60cf733a55c5ca!2z4LmA4Lit4LiqICbguK7guLLguKPguJfguYwg4LiL4Lix4LiBIOC4o-C4teC4lA!5e0!3m2!1sth!2sth!4v1707819957182!5m2!1sth!2sth" width="1000" height="450" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+
+  </div>
+  
+
+
+
+<div class="bg-[#] text-black py-16 mt-6">
+    <div class="container mx-auto text-center">
+        <p class="text-2xl font-bold mb-4">ติดต่อเรา</p>
+        <p>มีคำถามหรือต้องการให้เราช่วยเหลือ ติดต่อเราได้ที่</p>
+        <p>Email: essoandheart@gmail.com</p>
+        <p>โทร: 085-383-9813</p>
+    </div>
+</div>
+
+
+
+
+
+</div>
+{% endblock %}

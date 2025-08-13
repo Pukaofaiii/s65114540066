@@ -1,0 +1,80 @@
+{% extends 'components/base.html' %}
+
+{% block title %} รายการส่งซัก {% endblock %}
+
+{% block content %}
+
+<div class="flex-grow">
+    {% if messages %}
+        {% for message in messages %}
+            <div class="p-4 mb-4 text-sm text-green-800 rounded-lg bg-green-50 dark:bg-gray-800 dark:text-green-400" role="alert">
+                <span class="font-medium">{{ message }}</span>
+            </div>
+        {% endfor %}
+    {% endif %}
+
+    <div class="relative overflow-x-auto">
+        <table class="w-full text-sm text-left rtl:text-right text-gray-500">
+            <thead class="text-sm text-yellow-100 uppercase bg-[#006abc] shadow-xl">
+                <tr>
+                    <th scope="col" class="px-6 py-3">ID</th>
+                    <th scope="col" class="px-6 py-3">วันที่ส่ง</th>
+                    <th scope="col" class="px-6 py-3">วันที่รับผ้า</th>
+                    <th scope="col" class="px-6 py-3">สถานะ</th>
+                    <th scope="col" class="px-6 py-3">รายละเอียด</th>
+                    <th scope="col" class="px-6 py-3">ราคา</th>
+                    <th scope="col" class="px-6 py-3"></th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for laundry in model_form %}
+                <tr class="bg-blue-200 order-b text-gray-600">
+                    <td class="px-6 py-4">{{ laundry.id }}</td>
+                    <td class="px-6 py-4">{{ laundry.date_start }}</td>
+                    <td class="px-6 py-4">{{ laundry.date_end }}</td>
+                    <td class="px-6 py-4">{{ laundry.get_status_display }}</td>
+                    <td class="px-6 py-4">
+                        <a class="hover:underline text-black" href="{% url 'detail' laundry.id %}">รายละเอียด</a>
+                    </td>
+                    {% if laundry.status == '1' %}
+                    <td class="px-6 py-4">{{ laundry.admin_price }}</td>
+                    {% else %}
+                    <td></td>
+                    {% endif %}
+                    <form method="post">
+                        {% csrf_token %}
+                        {% if laundry.status == '1' %}
+                        <td class="px-4 py-4 text-black"><p class="rounded">ยกเลิกไม่ได้</p></td>
+                        {% elif laundry.status == '2' %}
+                        <td class="px-4 py-4 text-black"><p class="rounded">ยกเลิกไม่ได้</p></td>
+                        {% elif laundry.status == '3' %}
+                        <td class="px-4 py-4 text-white">
+                            <button type="submit" name="cancel_button" value="{{ laundry.id }}" class="rounded bg-red-700 hover:bg-red-600 p-2 px-3" onclick="return confirm('คุณต้องการยกเลิก ID {{ laundry.id }} หรือไม่?')">ยกเลิก</button>
+                        </td>
+                        {% elif laundry.status == '4' %}
+                        <td class="px-4 py-4 text-black"></td>
+                        {% endif %}
+                    </form>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</div>
+
+<script>
+    var ws_scheme = window.location.protocol == "https:" ? "wss" : "ws";
+    var ordersSocket = new WebSocket(ws_scheme + '://' + window.location.host + '/ws/orders/');
+
+    ordersSocket.onmessage = function(e) {
+        var data = JSON.parse(e.data);
+        alert(data.message);
+        location.reload();
+    };
+
+    ordersSocket.onclose = function(e) {
+        console.error('WebSocket closed unexpectedly');
+    };
+</script>
+
+{% endblock %}

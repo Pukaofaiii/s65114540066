@@ -1,0 +1,116 @@
+{% extends 'components/2.html' %}
+
+{% block title %} รายละเอียด {% endblock %}
+
+{% block content %}
+
+<div class="flex-1 p-8">
+
+    <div class="grid grid-cols-4 gap-4 mb-8">
+        <div class="bg-blue-500 text-white p-4 rounded shadow">
+            <h5 class="text-lg">รายการส่งซัก {{ total_orders }} รายการ</h5>
+        </div>
+        <div class="bg-green-500 text-white p-4 rounded shadow">
+            <h5 class="text-lg">จำนวนผ้า {{ total_clothes }} ตัว</h5>
+        </div>
+        <div class="bg-blue-300 text-white p-4 rounded shadow">
+            <h5 class="text-lg">จำนวนตะกร้า {{ total_baskets }} ตะกร้า</h5>
+        </div>
+        <div class="bg-yellow-500 text-white p-4 rounded shadow">
+            <h5 class="text-lg">จำนวนผู้ใช้ในระบบ {{ total_customers }} คน</h5>
+        </div>
+    </div>
+
+    <form method="get" class="mb-8">
+        <div class="flex space-x-4">
+            <div>
+                <label for="start_date" class="block text-sm font-medium text-gray-700">Start Date</label>
+                <input type="date" name="start_date" id="start_date" class="mt-1 block w-full p-2 border border-gray-300 rounded-md" value="{{ request.GET.start_date }}">
+            </div>
+            <div class="self-end">
+                <button type="submit" class="mt-1 block w-full bg-blue-500 text-white p-2 rounded-md">Filter</button>
+            </div>
+            <div class="self-end">
+                <a href="{% url 'reset_date_filter' %}" class="mt-1 block w-full bg-red-500 text-white p-2 rounded-md text-center">Reset</a>
+            </div>
+        </div>
+    </form>
+    
+    <div class="grid grid-cols-2 gap-4 mb-8">
+        <div>
+            <canvas id="pieChart" style="max-width: 1000px; max-height: 700px;"></canvas>
+        </div>
+        <div>
+            <canvas id="barChart"></canvas>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script>
+        var pieCtx = document.getElementById('pieChart').getContext('2d');
+        var pieChart = new Chart(pieCtx, {
+            type: 'pie',
+            data: {
+                labels: JSON.parse('{{ status_labels|escapejs }}'),
+                datasets: [{
+                    data: JSON.parse('{{ status_counts|escapejs }}'),
+                    backgroundColor: [
+                        'rgba(255, 99, 132, 0.2)',
+                        'rgba(54, 162, 235, 0.2)',
+                        'rgba(255, 206, 86, 0.2)',
+                        'rgba(75, 192, 192, 0.2)'
+                    ],
+                    borderColor: [
+                        'rgba(255, 99, 132, 1)',
+                        'rgba(54, 162, 235, 1)',
+                        'rgba(255, 206, 86, 1)',
+                        'rgba(75, 192, 192, 1)'
+                    ],
+                    borderWidth: 1
+                }]
+            },
+            options: {
+                responsive: true,
+                plugins: {
+                    legend: {
+                        position: 'top'
+                    }
+                },
+                animation: {
+                    animateRotate: true,
+                    animateScale: true
+                }
+            }
+        });
+
+        var barCtx = document.getElementById('barChart').getContext('2d');
+        var barChart = new Chart(barCtx, {
+            type: 'bar',
+            data: {
+                labels: JSON.parse('{{ monthly_labels|escapejs }}'),
+                datasets: [{
+                    label: 'Laundry Orders',
+                    data: JSON.parse('{{ monthly_data|escapejs }}'),
+                    backgroundColor: 'rgba(54, 162, 235, 0.2)',
+                    borderColor: 'rgba(54, 162, 235, 1)',
+                    borderWidth: 1
+                }]
+            },
+            options: {
+                responsive: true,
+                scales: {
+                    y: {
+                        beginAtZero: true
+                    }
+                },
+                animation: {
+                    duration: 3000, // ระยะเวลาในการแสดงผล animation (มิลลิวินาที)
+                    easing: 'easeOutElastic', // เลือกรูปแบบของ animation ที่ชัดเจนขึ้น
+                    onComplete: function() {
+                        console.log('Animation complete!');
+                    }
+                }
+            }
+        });
+    </script>
+{% endblock %}

@@ -1,0 +1,94 @@
+{% extends 'components/base.html' %}
+
+{% block title %} บริการซักรีด {% endblock %}
+
+{% block content %}
+<div class="flex-grow">
+    
+
+    <div class="max-w-md mx-auto bg-white p-6 mt-10 rounded-md shadow-md">
+        <h2 class="text-2xl font-semibold text-center">เลือกรับบริการซัก รีด ที่คุณต้องการ</h2>
+        {% if messages %}
+        {% for message in messages %}
+            <div class="p-4 mb-4 text-sm text-white rounded-lg bg-red-500" role="alert">
+                <span class="font-medium">{{ message }}</span>
+            </div>
+        {% endfor %}
+    {% endif %}
+        <form action="{% url 'service' %}" method="POST">
+            {% csrf_token %}
+
+             <hiden class="flex invisible mt-[-30px]">
+              <div class=" grid grid-cols-2 ">
+                <div class="">
+                    <label for="first_name" class="block  text-gray-600"></label>
+                    <input type="text" name="first_name" value="{{ user.first_name }}" placeholder="ชื่อของคุณ" class="w-full px-4 py-2 border rounded-md focus:outline-none focus:border-blue-500" step="any">
+                </div>
+            
+                <div>
+                    <label for="last_name" class="block text-gray-600"></label>
+                    <input type="text" name="last_name" value="{{ user.last_name }}" placeholder="นามสกุล" class="w-full px-4 py-2 border rounded-md focus:outline-none focus:border-blue-500" step="any">
+                </div>
+            </div>
+        
+            <div class=" grid grid-cols-2 ">
+              <div>
+                  <label for="email" class="block text-gray-600"></label>
+                  <input type="email" value="{{ user.email }}" name="email" placeholder="อีเมลของคุณ" class="w-full px-4 py-2 border rounded-md focus:outline-none focus:border-blue-500" step="any">
+              </div>
+          
+              <div>
+                  <label for="phone_number" class="block text-gray-600"></label>
+                  <input type="text" name="phone_number" value="{{ user.user_profile.phone_number }}" placeholder="เบอร์โทรของคุณ" class="w-full px-4 py-2 border rounded-md focus:outline-none focus:border-blue-500" step="any">
+              </div>
+          </div>
+          </hiden>
+            
+            <div class="mt-4">
+                <label for="Laundry" class="block text-gray-600">การบริการ:</label>
+                <select id="Laundry" name="Laundry" class="w-full px-4 py-2 border rounded-md focus:outline-none focus:border-blue-500" required>
+                    <option value="ซักรีด">ซักรีด</option>
+                    <option value="ซัก-พับ">ซัก-พับ</option>
+                    <option value="เเค่ซัก">เเค่ซัก</option>
+                    <option value="เเค่รีด">เเค่รีด</option>
+                </select>
+            </div>
+
+                <div class="mt-4">
+                    <label for="date_start" class="block text-gray-600">วันที่ส่ง:</label>
+                    <input type="date" name="date_start" id="date_start" class="w-full px-4 py-2 border rounded-md focus:outline-none focus:border-blue-500" required>
+                </div>
+
+
+            <div class="mt-4">
+                <label for="clothes" class="block text-gray-600">รูปเเบบจัดเก็บผ้า:</label>
+                <select id="clothes" name="clothes" class="w-full px-4 py-2 border rounded-md focus:outline-none focus:border-blue-500" required>
+                    <option value="พับทั้งหมด">รีด-พับ ทั้งหมด</option>
+                    <option value="เเขวนทั้งหมด">รีด-เเขวน ทั้งหมด</option>
+                    <option value="รีด-เเขวน เพียง/ชุดสูท/ชุดนักศึกษา/ชุดครุย">รีด-เเขวน เพียง/ชุดสูท/ชุดนักศึกษา/ชุดครุย</option>
+                    <option value="เเค่รีด">เเค่รีด</option>
+                </select>
+            </div>
+
+            <div class="grid grid-cols-2 gap-4 mt-4">
+                <div>
+                    <label for="number_clothes" class="block text-gray-600">จำนวนผ้า:</label>
+                    <input type="text" name="number_clothes" placeholder="ตัวอย่างเช่น '5' ตัว" class="w-full px-4 py-2 border rounded-md focus:outline-none focus:border-blue-500" required>
+                </div>
+                <div>
+                    <label for="number_baskets" class="block text-gray-600">จำนวนตะกร้า: <span class="text-sm">*หากไม่มีให้ใส่ -</span></label>
+                    <input type="text" name="number_baskets" placeholder="ตัวอย่างเช่น '1' ตะกร้า" class="w-full px-4 py-2 border rounded-md focus:outline-none focus:border-blue-500" required>
+                </div>
+            </div>
+            
+            <div class="mt-4">
+                <label for="note" class="block text-gray-600">หมายเหตุ:</label>
+                <input type="text" name="note" placeholder="ตัวอย่างเช่น 'ชุดสูทซักมือ' 'ชุดนักศึกษาเเค่ รีด'" class="w-full px-4 py-2 border rounded-md focus:outline-none focus:border-blue-500" required>
+            </div>
+
+            <button type="submit" class="bg-blue-500 text-white px-4 py-2 rounded-md hover:bg-blue-700 mt-4">ตกลง</button>
+        </form>
+    </div>
+</div>
+
+{% endblock %}

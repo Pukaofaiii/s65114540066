@@ -1,0 +1,131 @@
+{% extends 'components/base.html' %}
+
+{% block title %} ราคา {% endblock %}
+{% load static %}
+{% block content %}
+
+<div class="container mx-auto p-6">
+    <h1 class="text-3xl font-semibold text-center mb-6">รายการผ้าพร้อมราคา</h1>
+    <table class="w-full border-collapse bg-blue-100 border border-black">
+        <thead>
+            <tr>
+                <th class="border border-black px-4 py-2">ลำดับ</th>
+                <th class="border border-black px-4 py-2">รายการ</th>
+                <th class="border border-black px-4 py-2">จำนวน</th>
+                <th class="border border-black px-4 py-2">ราคา (บาท)</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td class="border border-black px-4 py-2">1</td>
+                <td class="border border-black px-4 py-2">เสื้อเชิ้ตแขนยาว</td>
+                <td class="border border-black px-4 py-2">1 ชิ้น</td>
+                <td class="border border-black px-4 py-2">20 บาท</td>
+            </tr>
+            <tr>
+                <td class="border border-black px-4 py-2">2</td>
+                <td class="border border-black px-4 py-2">เสื้อเชิ้ตแขนสั้น</td>
+                <td class="border border-black px-4 py-2">1 ชิ้น</td>
+                <td class="border border-black px-4 py-2">20 บาท</td>
+            </tr>
+            <tr>
+                <td class="border border-black px-4 py-2">3</td>
+                <td class="border border-black px-4 py-2">เสื้อยืด คอโปโล แขนสั้น/แขนยาว</td>
+                <td class="border border-black px-4 py-2">1 ชิ้น</td>
+                <td class="border border-black px-4 py-2">20 บาท</td>
+            </tr>
+            <tr>
+                <td class="border border-black px-4 py-2">4</td>
+                <td class="border border-black px-4 py-2">กางเกงขายาว สเเล็ค หญิง/ชาย</td>
+                <td class="border border-black px-4 py-2">1 ชิ้น</td>
+                <td class="border border-black px-4 py-2">20 บาท</td>
+            </tr>
+            <tr>
+                <td class="border border-black px-4 py-2">5</td>
+                <td class="border border-black px-4 py-2">กางเกงขาสั้น หญิง/ชาย</td>
+                <td class="border border-black px-4 py-2">1 ชิ้น</td>
+                <td class="border border-black px-4 py-2">20 บาท</td>
+            </tr>
+            <tr>
+                <td class="border border-black px-4 py-2">6</td>
+                <td class="border border-black px-4 py-2">กางเกงยีนส์ ชาย</td>
+                <td class="border border-black px-4 py-2">1 ชิ้น</td>
+                <td class="border border-black px-4 py-2">20 บาท</td>
+            </tr>
+            <tr>
+                <td class="border border-black px-4 py-2">7</td>
+                <td class="border border-black px-4 py-2">กางเกงยีนส์ หญิง</td>
+                <td class="border border-black px-4 py-2">1 ชิ้น</td>
+                <td class="border border-black px-4 py-2">20 บาท</td>
+            </tr>
+            <tr>
+                <td class="border border-black px-4 py-2">8</td>
+                <td class="border border-black px-4 py-2">ชุดผ้านวม+ผ้าปู+ปลอกหมอน</td>
+                <td class="border border-black px-4 py-2">1 ชุด</td>
+                <td class="border border-black px-4 py-2">200 บาท</td>
+            </tr>
+            <tr>
+                <td class="border border-black px-4 py-2">9</td>
+                <td class="border border-black px-4 py-2">ผ้านวม</td>
+                <td class="border border-black px-4 py-2">1 ผืน</td>
+                <td class="border border-black px-4 py-2">150 บาท</td>
+            </tr>
+            <tr>
+                <td class="border border-black px-4 py-2">10</td>
+                <td class="border border-black px-4 py-2">ผ้าปู+ปลอกหมอน</td>
+                <td class="border border-black px-4 py-2">1 ชุด</td>
+                <td class="border border-black px-4 py-2">70 - 100 บาท</td>
+            </tr>
+            <tr>
+                <td class="border border-black px-4 py-2">11</td>
+                <td class="border border-black px-4 py-2">ผ้าเช็ดตัว</td>
+                <td class="border border-black px-4 py-2">1 ผืน</td>
+                <td class="border border-black px-4 py-2">20 บาท</td>
+            </tr>
+            <tr>
+                <td class="border border-black px-4 py-2">12</td>
+                <td class="border border-black px-4 py-2">ถุงเท้า</td>
+                <td class="border border-black px-4 py-2">1 คู่</td>
+                <td class="border border-black px-4 py-2">12 บาท</td>
+            </tr>
+            <tr>
+                <td class="border border-black px-4 py-2">13</td>
+                <td class="border border-black px-4 py-2">กางเกงใน ชุดชั้นในหญิง</td>
+                <td class="border border-black px-4 py-2">1 ชิ้น</td>
+                <td class="border border-black px-4 py-2">30 บาท</td>
+            </tr>
+            <tr>
+                <td class="border border-black px-4 py-2">14</td>
+                <td class="border border-black px-4 py-2">สูทดำ ชาย/หญิง</td>
+                <td class="border border-black px-4 py-2">1 ชิ้น</td>
+                <td class="border border-black px-4 py-2">50 บาท</td>
+            </tr>
+            <tr>
+                <td class="border border-black px-4 py-2">15</td>
+                <td class="border border-black px-4 py-2">สูทขาว ชาย/หญิง</td>
+                <td class="border border-black px-4 py-2">1 ชิ้น</td>
+                <td class="border border-black px-4 py-2">90 บาท</td>
+            </tr>
+            <tr>
+                <td class="border border-black px-4 py-2">16</td>
+                <td class="border border-black px-4 py-2">ชุุดรับปริญญา(ครุย)</td>
+                <td class="border border-black px-4 py-2">1 ชิ้น</td>
+                <td class="border border-black px-4 py-2">20 บาท</td>
+            </tr>
+            <tr>
+                <td class="border border-black px-4 py-2">17</td>
+                <td class="border border-black px-4 py-2">รองเท้า</td>
+                <td class="border border-black px-4 py-2">1 คู่</td>
+                <td class="border border-black px-4 py-2">50 บาท</td>
+            </tr>
+            <tr>
+                <td class="border border-black px-4 py-2">18</td>
+                <td class="border border-black px-4 py-2">ผ้าม่าน เล็ก/กลาง/ใหญ่</td>
+                <td class="border border-black px-4 py-2">1 ชิ้น</td>
+                <td class="border border-black px-4 py-2">60 - 100 บาท</td>
+            </tr>
+        </tbody>
+    </table>
+</div>
+
+{% endblock %}

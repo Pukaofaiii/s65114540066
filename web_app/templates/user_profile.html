@@ -1,0 +1,48 @@
+{% extends 'components/base.html' %}
+{% load static %}
+{% block title %} หน้าโปรไฟล์ {% endblock %}
+
+{% block content %}
+<div class="flex-grow">
+  <div class="flex justify-center items-center mt-10 w-full">
+    <div class="bg-blue-200 w-[35rem] rounded-lg shadow-md p-6">
+      <div class="flex items-center mb-4">
+        {% if user_profile.profile_image.url != none %}
+
+        <img class="profile-image h-24 w-24 rounded-full mr-4" src="{{ user_profile.profile_image.url }}" alt="Profile Image">
+        {% else %}
+        <img class="profile-image h-24 w-24 rounded-full mr-4" src="{% static 'image_profile_example\1.png' %}" alt="Default Profile Image">
+        {% endif %}
+        <div>
+          <h2 class="text-xl font-bold">โปรไฟล์ของ {{ user.username }}</h2>
+          <p>ชื่อ: {{ user_profile.first_name }}</p>
+          <p>นามสกุล: {{ user.last_name }}</p>
+          <p>อีเมล: {{ user.email }}</p>
+          <p>เบอร์โทรศัพท์: {{ user_profile.phone_number }}</p>
+          <p>ที่อยู่: {{ user_profile.address }}</p>
+
+         
+          {% if member.status_member == 2 %}
+          <p>สถานะ: สมาชิกรายเดือน</p>
+          {% else %}
+          <p>สถานะ: สมาชิกรายวัน</p>
+          {% endif %}
+      
+        
+
+        </div>
+      </div>
+      <form method="post" enctype="multipart/form-data" action="{% url 'update_profile_image' %}">
+        {% csrf_token %}
+        <div class="flex items-center">
+          <input type="file" name="profile_image" accept="image/*" class="mr-2">
+          <button type="submit" class="bg-blue-500 text-white px-4 py-2 rounded-md">อัพโหลดโปรไฟล์</button>
+        </div>
+      </form>
+      <div class="mt-4">
+        <a href="{% url 'edit_profile' %}" class="text-blue-500 hover:underline">แก้ไขประวัติ</a>
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock %}

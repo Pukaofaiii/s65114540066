@@ -1,0 +1,37 @@
+version: '3.8'
+services:
+  web:
+      build: .
+      container_name: django_app
+      command: >
+        sh -c "python manage.py migrate &&
+              python manage.py runserver 0.0.0.0:8000"
+      volumes:
+        - .:/app
+      ports:
+        - "8000:8000"
+      depends_on:
+        - db
+      environment:
+        DB_NAME: mydb
+        DB_USER: myuser
+        DB_PASSWORD: mypassword
+        DB_HOST: db
+        DB_PORT: 3306
+  db:
+    image: mysql:latest
+    container_name: myproject_db
+    restart: always
+    environment:
+      MYSQL_ROOT_PASSWORD: rootpass
+      MYSQL_DATABASE: mydb
+      MYSQL_USER: myuser
+      MYSQL_PASSWORD: mypassword
+    ports:
+      - "3306:3306"
+    volumes:
+      - mysql_data:/var/lib/mysql
+
+
+volumes:
+  mysql_data:

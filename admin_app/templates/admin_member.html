@@ -1,0 +1,121 @@
+{% extends 'components/base_admin.html' %}
+
+{% block title %} รายการส่งซัก {% endblock %}
+
+{% block content %}
+
+<div class="flex-grow">
+
+    <div class="relative overflow-x-auto">
+        <table class="w-full text-sm text-left rtl:text-right text-gray-500 ">
+            <thead class="text-xs text-white uppercase bg-blue-700">
+                <tr>
+                    <th scope="col" class="px-6 py-3">
+                        รหัสลูกค้า
+                    </th>
+                    <th scope="col" class="px-6 py-3">
+                        ชื่อลูกค้า
+                    </th>
+                    <th scope="col" class="px-6 py-3">
+                        วันที่ส่ง
+                    </th>
+                    <th scope="col" class="px-6 py-3">
+                        วันที่รับผ้า
+                    </th>
+                    <th scope="col" class="px-6 py-3">
+                        สถานะ
+                    </th>
+                     <th scope="col" class="px-6 py-3">
+                        รายละเอียด
+                    </th> 
+                    <th scope="col" class="px-[27px] py-3">
+                        เเก้ไข
+                    </th>
+                    <th scope="col" class="px-6 py-3">
+                        ลบ
+                    </th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for user in list_user %}
+                <tr class="bg-sky-100 border-b text-gray-700 font-semibold border-gray-600">
+                    <td class="px-6 py-4">
+                        {{user.id}}
+                     </td>
+                    <td class="px-6 py-4">
+                       คุณ{{user.address_member}} {{user.last_name}}
+                    </td>
+                    
+                     <td id="dropdown" class="px-6 py-4">
+                        {{user.date_start}}
+                     </td>
+    
+                     <td id="dropdown" class="px-6 py-4">
+                        {{user.date_end}}
+                     </td>
+                                        
+                    {% if user.status == '4' %}
+                    <td class="px-6 py-4">
+                        {{user.get_status_display}}
+                     </td>
+
+                         
+                    <td id="dropdown" class="px-6 py-4">
+                            <a href="{% url 'admin_detail' user.id %}">รายละเอียด</a>
+                    </td>                   
+                    {% for i in members %}
+                <td class="px-4 py-4 text-black">
+                   {{ i.address_member}}
+                </td>
+                {% endfor %}
+
+                     <td>
+                     </td>
+                    <td class="px-4 py-4 text-white">
+                        <a href="/delete/{{user.id}}" class="rounded bg-red-700 hover:bg-red-600 p-2 px-5" onclick="return confirm('คุณต้องการลบ order {{laundry.first_name}} หรือไม่?')">ลบ</a>    
+                    </td>
+                    {% else %}
+                     <td id="dropdown" class="px-1 py-4">
+                        <form action="{% url 'status_update' user.id %}" method="POST">
+                            {% csrf_token %}
+                            <select name="status" id="countries" class="w-full p-1 bg-sky-50 border border-gray-400 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" style="max-width: 150px;">
+                                <option>{{user.get_status_display}}</option>
+                                <option value="1" >เสร็จเเล้ว</option>
+                                <option value="2">ยังไม่เสร็จ</option>
+                                <option value="3" >รอการส่งซัก</option>
+                            </select>
+                            
+                                <button type="submit" class="mt-4 bg-sky-600 hover:bg-sky-700 text-white px-1 py-1 rounded-md font-semibold">อัพเดทสถานะ</button>
+                            </div>
+                        </form>
+
+                     </td>
+                     <td id="dropdown" class="px-6 py-4">
+                        <a href="{% url 'admin_detail' user.id %}">รายละเอียด</a>
+                     </td>
+                    <td class="px-4 py-4  text-white ">
+                        <a href="/user_service/{{user.id}} " class="rounded bg-green-600 hover:bg-green-500 p-2 px-3">แก้ไข</a>
+                    </td>
+
+                    <td class="px-4 py-4 text-white">
+                        <a href="/delete/{{user.id}}" class="rounded bg-red-700 hover:bg-red-600 p-2 px-5" onclick="return confirm('คุณต้องการลบ order {{laundry.first_name}} หรือไม่?')">ลบ</a>    
+                    </td>
+                    {% endif %}
+                </tr>
+                {% endfor %}
+                {% for i in members %}
+                <td class="px-4 py-4 text-black">
+                   {{ i.address_member}}
+                </td>
+                {% endfor %}
+
+
+            </tbody>
+        </table>
+    </div>
+    </div>
+    
+</div>
+
+
+{% endblock %}

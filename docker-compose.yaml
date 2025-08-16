@@ -1,23 +1,26 @@
 version: '3.8'
+
 services:
   web:
-      build: .
-      container_name: django_app
-      command: >
-        sh -c "python manage.py migrate &&
-              python manage.py runserver 0.0.0.0:8000"
-      volumes:
-        - .:/app
-      ports:
-        - "8000:8000"
-      depends_on:
-        - db
-      environment:
-        DB_NAME: mydb
-        DB_USER: myuser
-        DB_PASSWORD: mypassword
-        DB_HOST: db
-        DB_PORT: 3306
+    build: .
+    container_name: django_app
+    command: >
+      sh -c "python manage.py migrate &&
+             python manage.py runserver 0.0.0.0:8000"
+    volumes:
+      - .:/app
+    ports:
+      - "8000:8000"
+    depends_on:
+      db:
+        condition: service_healthy
+    environment:
+      DB_NAME: mydb
+      DB_USER: myuser
+      DB_PASSWORD: mypassword
+      DB_HOST: db
+      DB_PORT: 3306
+
   db:
     image: mysql:latest
     container_name: myproject_db
@@ -31,7 +34,11 @@ services:
       - "3306:3306"
     volumes:
       - mysql_data:/var/lib/mysql
-
+    healthcheck:
+      test: ["CMD", "mysqladmin", "ping", "-h", "localhost", "-p${MYSQL_ROOT_PASSWORD}"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
 
 volumes:
   mysql_data:

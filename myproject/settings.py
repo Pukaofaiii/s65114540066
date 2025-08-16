@@ -126,7 +126,7 @@ DATABASES = {
             "charset": "utf8mb4",
         },
     }
-}}
+}
 
 
 # Password validation

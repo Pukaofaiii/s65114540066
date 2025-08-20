@@ -1,44 +1,57 @@
-version: '3.8'
+version: "3.8"
 
 services:
-  web:
-    build: .
-    container_name: django_app
-    command: >
-      sh -c "python manage.py migrate &&
-             python manage.py runserver 0.0.0.0:8000"
-    volumes:
-      - .:/app
-    ports:
-      - "8000:8000"
-    depends_on:
-      db:
-        condition: service_healthy
-    environment:
-      DB_NAME: mydb
-      DB_USER: myuser
-      DB_PASSWORD: mypassword
-      DB_HOST: db
-      DB_PORT: 3306
-
-  db:
-    image: mysql:latest
-    container_name: myproject_db
+  postgres:
+    image: postgres:16
+    container_name: myproject_postgres
     restart: always
     environment:
-      MYSQL_ROOT_PASSWORD: rootpass
-      MYSQL_DATABASE: mydb
-      MYSQL_USER: myuser
-      MYSQL_PASSWORD: mypassword
-    ports:
-      - "3306:3306"
+      POSTGRES_DB: ${POSTGRES_DB}
+      POSTGRES_USER: ${POSTGRES_USER}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
     volumes:
-      - mysql_data:/var/lib/mysql
+      - pg_data:/var/lib/postgresql/data
+    # ไม่จำเป็นต้องเปิดพอร์ตภายนอก ถ้าไม่ต้องให้เครื่องอื่นต่อโดยตรง
+    # ถ้าต้องการตรวจจากภายนอก ค่อยเปิด: "5432:5432"
+    # ports:
+    #   - "5432:5432"
     healthcheck:
-      test: ["CMD", "mysqladmin", "ping", "-h", "localhost", "-p${MYSQL_ROOT_PASSWORD}"]
+      test: ["CMD-SHELL", "pg_isready -U $$POSTGRES_USER -d $$POSTGRES_DB"]
       interval: 10s
       timeout: 5s
       retries: 5
 
+  web:
+    build: .
+    container_name: django_app
+    depends_on:
+      postgres:
+        condition: service_healthy
+    env_file:
+      - .env
+    environment:
+      DEBUG: "0"
+      ALLOWED_HOSTS: "202.28.49.122,localhost,127.0.0.1"
+      CSRF_TRUSTED_ORIGINS: "http://202.28.49.122,https://202.28.49.122,http://localhost,http://127.0.0.1"
+      POSTGRES_HOST: "postgres"      # ชี้ไปที่ service ด้านบน
+      POSTGRES_PORT: "5432"
+
+      DJANGO_SUPERUSER_USERNAME: "admin"
+      DJANGO_SUPERUSER_EMAIL: "admin@example.com"
+      DJANGO_SUPERUSER_PASSWORD: "ChangeMe123!"
+
+
+    command: >
+      sh -c "
+      python manage.py collectstatic --noinput &&
+      python manage.py migrate --noinput &&
+      python manage.py createsuperuser --noinput || true &&
+      gunicorn myproject.wsgi:application --bind 0.0.0.0:8000 --workers 3 --timeout 60
+      "
+    ports:
+      - "8000:8000"
+    volumes:
+      - .:/app
+
 volumes:
-  mysql_data:
+  pg_data:

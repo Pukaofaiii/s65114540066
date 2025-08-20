@@ -26,13 +26,15 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # SECURITY WARNING: don't run with debug turned on in production!
 #DEBUG = True
 
-SECRET_KEY = os.environ.get("SECRET_KEY", "dev-secret")
-DEBUG = os.environ.get("DEBUG", "1") == "1"
+SECRET_KEY = os.getenv('SECRET_KEY')
+DEBUG = os.getenv('DEBUG') == 'True'
+ALLOWED_HOSTS = os.getenv('ALLOWED_HOSTS').split(',')
 
-ALLOWED_HOSTS = os.environ.get(
-    "ALLOWED_HOSTS",
-    "localhost,127.0.0.1,0.0.0.0,10.0.2.2,10.0.3.2"
-).split(",")
+ALLOWED_HOSTS = [h.strip() for h in os.getenv("ALLOWED_HOSTS","").split(",") if h.strip()]
+
+CSRF_TRUSTED_ORIGINS = [
+    o.strip() for o in os.getenv("CSRF_TRUSTED_ORIGINS","").split(",") if o.strip()
+]
 
 # Application definition
 
@@ -116,17 +118,16 @@ WSGI_APPLICATION = "myproject.wsgi.application"
 
 DATABASES = {
     "default": {
-        "ENGINE": "django.db.backends.mysql",
-        "NAME": 'mydb',
-        "USER": 'myuser',
-        "PASSWORD": 'mypassword',
-        "HOST": 'db',
-        "PORT": 3306,
-        "OPTIONS": {
-            "charset": "utf8mb4",
-        },
+        "ENGINE": "django.db.backends.postgresql",
+        "NAME": os.getenv("POSTGRES_DB", "mydb"),
+        "USER": os.getenv("POSTGRES_USER", "myuser"),
+        "PASSWORD": os.getenv("POSTGRES_PASSWORD", "mypassword"),
+        "HOST": os.getenv("POSTGRES_HOST", "postgres"),
+        "PORT": os.getenv("POSTGRES_PORT", "5432"),
+        "CONN_MAX_AGE": 60,
     }
 }
+
 
 
 # Password validation

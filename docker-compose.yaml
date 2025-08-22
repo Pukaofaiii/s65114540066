@@ -15,6 +15,8 @@ services:
     # ถ้าต้องการตรวจจากภายนอก ค่อยเปิด: "5432:5432"
     # ports:
     #   - "5432:5432"
+    ports:
+      - "2${PORT_SUFFIX}:5432"
     healthcheck:
       test: ["CMD-SHELL", "pg_isready -U $$POSTGRES_USER -d $$POSTGRES_DB"]
       interval: 10s
@@ -32,7 +34,7 @@ services:
     environment:
       DEBUG: "0"
       ALLOWED_HOSTS: "202.28.49.122,localhost,127.0.0.1"
-      CSRF_TRUSTED_ORIGINS: "http://202.28.49.122,https://202.28.49.122,http://localhost,http://127.0.0.1"
+      CSRF_TRUSTED_ORIGINS: "http://202.28.49.122,https://202.28.49.122,http://localhost,http://127.0.0.1มhttp://localhost:1${PORT_SUFFIX},http://127.0.0.1:1${PORT_SUFFIX}"
       POSTGRES_HOST: "postgres"      # ชี้ไปที่ service ด้านบน
       POSTGRES_PORT: "5432"
 
@@ -49,7 +51,7 @@ services:
       gunicorn myproject.wsgi:application --bind 0.0.0.0:8000 --workers 3 --timeout 60
       "
     ports:
-      - "8000:8000"
+      - "1${PORT_SUFFIX}:8000"
     volumes:
       - .:/app
 
